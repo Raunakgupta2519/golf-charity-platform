@@ -1,85 +1,77 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
-export default function SignupPage(){
+export default function SignupPage() {
 
-const router = useRouter()
+  const [email,setEmail] = useState("")
+  const [pass,setPass] = useState("")
+  const router = useRouter()
 
-const [email,setEmail] = useState("")
-const [pass,setPass] = useState("")
+  const signup = () => {
+    if(!email || !pass){
+      alert("Fill all fields")
+      return
+    }
 
-function signup(){
+    localStorage.setItem("user", JSON.stringify({email,pass}))
+    alert("Account Created ✅")
+    router.push("/login")
+  }
 
-if(!email || !pass){
-alert("Fill all fields")
-return
-}
+  return (
+    <div style={{
+      height:"100vh",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      background:"linear-gradient(135deg,#0f172a,#020617)"
+    }}>
 
-localStorage.setItem("user", JSON.stringify({email,pass}))
+      <div style={{
+        background:"#111827",
+        padding:40,
+        borderRadius:16,
+        width:320,
+        boxShadow:"0 0 40px rgba(0,0,0,0.6)"
+      }}>
 
-alert("Account Created ✅")
+        <h2 style={{color:"white",marginBottom:20}}>Create Account</h2>
 
-router.push("/login")
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e)=>setEmail(e.target.value)}
+          style={{width:"100%",padding:12,marginBottom:10}}
+        />
 
-}
+        <input
+          placeholder="Password"
+          type="password"
+          value={pass}
+          onChange={(e)=>setPass(e.target.value)}
+          style={{width:"100%",padding:12,marginBottom:20}}
+        />
 
-return(
+        <button
+          onClick={signup}
+          style={{
+            width:"100%",
+            padding:12,
+            background:"#22c55e",
+            border:"none",
+            color:"white",
+            fontWeight:"bold",
+            cursor:"pointer",
+            borderRadius:8
+          }}
+        >
+          Create Account
+        </button>
 
-<div style={{
-height:"100vh",
-display:"flex",
-justifyContent:"center",
-alignItems:"center",
-background:"#0f172a"
-}}>
+      </div>
 
-<div style={{
-background:"#1e293b",
-padding:40,
-borderRadius:12,
-width:300,
-boxShadow:"0 0 20px rgba(0,0,0,0.5)"
-}}>
-
-<h2 style={{color:"white"}}>Create Account</h2>
-
-<input
-placeholder="Email"
-value={email}
-onChange={(e)=>setEmail(e.target.value)}
-style={{width:"100%",padding:10,marginTop:10}}
-/>
-
-<input
-placeholder="Password"
-type="password"
-value={pass}
-onChange={(e)=>setPass(e.target.value)}
-style={{width:"100%",padding:10,marginTop:10}}
-/>
-
-<button
-onClick={signup}
-style={{
-marginTop:15,
-width:"100%",
-padding:10,
-background:"#22c55e",
-border:"none",
-color:"white",
-cursor:"pointer",
-borderRadius:6
-}}
->
-Create Account
-</button>
-
-</div>
-
-</div>
-
-)
-
+    </div>
+  )
 }
